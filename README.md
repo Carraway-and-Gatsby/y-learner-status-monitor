@@ -28,7 +28,7 @@ availability state would be public. The application repository remains private.
 Standard GitHub runners in public repositories are free; private repository
 runners consume the owner's shared allowance and can be billed above it.
 
-Install `production-monitor.yml` as `.github/workflows/monitor.yml` in the
+Install `production-monitor.yml` as `.github/workflows/availability-monitor.yml` in the
 approved repository. The repository scope is approved. Sender installation, connection-email delivery
 and outside-host runs are checked during activation; see Actions for current results. No broad provider account key
 or extra service subscription is required.
