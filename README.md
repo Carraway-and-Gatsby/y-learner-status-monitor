@@ -40,9 +40,10 @@ to the trigger owner, so that account must also remain monitored.
 On 2026-10-29, native Google **Time-Driven** executions at 23:00:34, 23:05:34 and
 23:10:34 KST completed. The first automatic callback received MailApp acceptance
 for one connection email; later callbacks sent none. All five checks were true,
-with no pending notification. Recipient inbox delivery is not independently
-verified: Google requests identity verification for the recipient's mailbox.
-Editor executions are excluded from the automatic execution evidence.
+with no pending notification. The owner subsequently confirmed receipt of the
+initial connection email at the intended recipient. Receipt is based on direct
+user confirmation, not browser inbox access. Editor executions are excluded
+from the automatic execution evidence.
 
 This uses Apps Script included with the existing Workspace account; no new paid
 subscription or billing-linked Cloud project was configured. At five-minute
