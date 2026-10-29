@@ -1,0 +1,31 @@
+# Installed only into the separately approved public monitor repository.
+name: Y Learner outside-host monitor
+on:
+  schedule:
+    - cron: '2-57/5 * * * *'
+  workflow_dispatch:
+    inputs:
+      send_connection_test:
+        description: Send one fixed connection-test email to contact@cgcorp.io
+        type: boolean
+        default: false
+permissions:
+  contents: write
+concurrency:
+  group: y-learner-monitor
+  cancel-in-progress: false
+jobs:
+  monitor:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Check outside the application and notify on state changes
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          SEND_CONNECTION_TEST: ${{ inputs.send_connection_test || 'false' }}
+        run: python3 monitor/run.py
