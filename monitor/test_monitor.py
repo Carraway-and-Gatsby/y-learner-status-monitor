@@ -51,7 +51,7 @@ class MonitorTests(unittest.TestCase):
             self.assertEqual(m.request('https://api.resend.com/usage'), (200, {}))
             req = build.return_value.open.call_args.args[0]
             self.assertEqual(req.get_header('User-agent'), m.USER_AGENT)
-            self.assertIsInstance(build.call_args.args[0], m.NoRedirect)
+            self.assertIs(build.call_args.args[0], m.NoRedirect)
 
     def test_healthy_runs_are_quiet(self):
         store, transport = Store(), Transport()
