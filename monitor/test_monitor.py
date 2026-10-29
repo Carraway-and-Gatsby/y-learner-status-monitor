@@ -2,6 +2,7 @@ import copy
 import importlib.util
 import pathlib
 import unittest
+from unittest.mock import patch
 
 spec = importlib.util.spec_from_file_location('monitor', pathlib.Path(__file__).with_name('run.py'))
 m = importlib.util.module_from_spec(spec)
@@ -42,6 +43,16 @@ class Transport:
 
 
 class MonitorTests(unittest.TestCase):
+    def test_api_transport_identifies_application_without_following_redirects(self):
+        with patch.object(m.urllib.request, 'build_opener') as build:
+            response = build.return_value.open.return_value.__enter__.return_value
+            response.status = 200
+            response.read.return_value = b'{}'
+            self.assertEqual(m.request('https://api.resend.com/usage'), (200, {}))
+            req = build.return_value.open.call_args.args[0]
+            self.assertEqual(req.get_header('User-agent'), m.USER_AGENT)
+            self.assertIsInstance(build.call_args.args[0], m.NoRedirect)
+
     def test_healthy_runs_are_quiet(self):
         store, transport = Store(), Transport()
         self.assertEqual(m.run(store, KEY, NOW, fetch=transport), 'unchanged')

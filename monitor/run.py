@@ -18,6 +18,7 @@ CHECKS = ('site', 'schema', 'payments', 'jobs', 'monitor')
 BRANCH = 'monitor-state'
 MAX_DAILY_EMAILS = 10
 MAX_MONTHLY_EMAILS = 300
+USER_AGENT = 'y-learner-status-monitor/1.0 (+https://y-learner.com)'
 
 
 class MonitorError(Exception):
@@ -33,7 +34,8 @@ def request(url, method='GET', body=None, headers=None):
     """Never log URLs, headers, credentials, provider errors or response content."""
     data = None if body is None else json.dumps(body, separators=(',', ':')).encode()
     req = urllib.request.Request(url, data=data, method=method,
-                                 headers={'Content-Type': 'application/json', **(headers or {})})
+                                 headers={'Content-Type': 'application/json', 'User-Agent': USER_AGENT,
+                                          **(headers or {})})
     try:
         with urllib.request.build_opener(NoRedirect).open(req, timeout=10) as response:
             raw = response.read(65537)
