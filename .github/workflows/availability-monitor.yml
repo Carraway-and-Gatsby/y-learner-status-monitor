@@ -1,8 +1,7 @@
-# Installed only into the separately approved public monitor repository.
-name: Y Learner outside-host monitor
+# Legacy manual recovery only. Production scheduling uses Google Apps Script.
+# Keep this workflow disabled in GitHub; no native GitHub schedule is configured.
+name: Y Learner legacy manual monitor
 on:
-  schedule:
-    - cron: '2,7,12,17,22,27,32,37,42,47,52,57 * * * *'
   workflow_dispatch:
     inputs:
       send_connection_test:
